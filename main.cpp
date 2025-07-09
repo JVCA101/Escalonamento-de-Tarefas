@@ -8,7 +8,9 @@ int main()
     Processo p2(2, 5);
 
     p1.exibir();
+    p1.executar();
     p2.exibir();
+    p2.executar();
 
     return 0;
 }
