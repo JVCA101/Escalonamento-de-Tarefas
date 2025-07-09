@@ -9,7 +9,8 @@ private:
     unsigned long tempoDeExecucao; // em segundos
 
 public:
-    Processo(int id, unsigned long tempo)
+
+    Processo(const int id, const unsigned long tempo)
     {
         this->id = id;
         this->tempoDeExecucao = tempo;
@@ -20,12 +21,12 @@ public:
         return id;
     }
 
-    int getTempoDeExecucao() const
+    unsigned long getTempoDeExecucao() const
     {
         return tempoDeExecucao;
     }
 
-    void setId(int novoId)
+    void setId(const int novoId)
     {
         id = novoId;
     }
@@ -48,6 +49,8 @@ public:
         std::this_thread::sleep_for(std::chrono::seconds(tempoDeExecucao));
         const auto end = std::chrono::high_resolution_clock::now();
 
-        std::cout << "Processo " << id << " terminou de executar em " << std::chrono::duration_cast<std::chrono::seconds>(end-start).count() << " segundos\n";
+        std::cout << "Processo " << id 
+                  << " terminou de executar em " << std::chrono::duration_cast<std::chrono::seconds>(end-start).count()
+                  << " segundos\n";
     }
 };
