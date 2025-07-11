@@ -1,18 +1,17 @@
 #pragma once
-
 #include "Escalonador.hpp"
 #include <thread>
 
-class FIFO : Escalonador
+class FIFO : public Escalonador
 {
 private:
 
 public:
 	FIFO(const unsigned int n_processos_max) : Escalonador(n_processos_max){}
 
-	void run()
+	void run() override
 	{
-    Processo processo = processos.front();
-    std::thread processo_(processo.executar);
+        std::thread processo_(&Processo::executar, &processos.front());
 	}
+
 };
