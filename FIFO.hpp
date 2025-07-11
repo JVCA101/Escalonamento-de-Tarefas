@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Escalonador.hpp"
+#include <thread>
 
-class FIFO : public Escalonador
+class FIFO : Escalonador
 {
 private:
 
@@ -11,6 +12,7 @@ public:
 
 	void run()
 	{
-		
+    Processo processo = processos.front();
+    std::thread processo_(processo.executar);
 	}
 };
