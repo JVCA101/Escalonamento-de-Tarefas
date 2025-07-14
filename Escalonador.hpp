@@ -1,6 +1,7 @@
 #pragma once
 
 #include <queue>
+#include <vector>
 #include "Processo.hpp"
 
 class Escalonador
@@ -23,9 +24,9 @@ public:
             std::cout << "Número máximo de processos\n";
             exit(1);
         }
-        
+        std::cout << "Added processo " << novo_processo.getId() << "\n";
         processos.push(novo_processo);
     }
 
-    virtual void run() = 0;
+    // virtual void run() = 0;
 };
