@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <queue>
 #include <vector>
 #include "Processo.hpp"
@@ -22,7 +23,7 @@ public:
         if(numero_processos_lista > numero_processos_maximo)
         {
             std::cout << "Número máximo de processos\n";
-            exit(1);
+            return;
         }
         std::cout << "Added processo " << novo_processo.getId() << "\n";
         processos.push(novo_processo);

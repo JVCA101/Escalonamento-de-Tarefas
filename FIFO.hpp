@@ -1,6 +1,8 @@
 #pragma once
-#include "Escalonador.hpp"
+
+#include <iostream>
 #include <thread>
+#include "Escalonador.hpp"
 
 class FIFO : public Escalonador
 {
@@ -15,11 +17,10 @@ public:
         {
             if(processos.size() == 0)
             {
-                std::cout << "Tamanho = 0\n";
+                std::cout << "Lista de processos está vazia\n Saindo da execução(mas deveria esperar um processo aparecer)\n";
                 break;
             }
             std::thread thread_processo(&Processo::executar, &processos.front());
-            std::cout << "while\n";
             thread_processo.join();
             processos.pop();
         }

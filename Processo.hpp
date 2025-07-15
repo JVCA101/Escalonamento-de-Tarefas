@@ -42,18 +42,18 @@ public:
     {
         std::cout << "Processo ID: " << this->id
                   << " | Tempo de Execução: " << this->tempoDeExecucao
-                  << " unidades\n";
+                  << " segundos\n";
     }
 
     void executar()
     {
         std::cout << "Executando processo " << this->id << "\n";
-        // const auto start = std::chrono::high_resolution_clock::now();
-        // std::this_thread::sleep_for(std::chrono::seconds(tempoDeExecucao));
-        // const auto end = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::high_resolution_clock::now();
+        std::this_thread::sleep_for(std::chrono::seconds(tempoDeExecucao));
+        const auto end = std::chrono::high_resolution_clock::now();
 
         std::cout << "Processo " << this->id 
-                  // << " terminou de executar em " << std::chrono::duration_cast<std::chrono::seconds>(end-start).count()
+                  << " terminou de executar em " << std::chrono::duration_cast<std::chrono::seconds>(end-start).count()
                   << " segundos\n";
     }
 };

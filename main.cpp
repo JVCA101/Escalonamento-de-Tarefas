@@ -1,6 +1,7 @@
+#include <iostream>
+#include <thread>
 #include "Processo.hpp"
 #include "FIFO.hpp"
-#include <thread>
 
 int main()
 {
@@ -8,16 +9,14 @@ int main()
     Processo p2(2, 5);
 
     p1.exibir();
-    // p1.executar();
     p2.exibir();
-    // p2.executar();
     
     FIFO fifo(4);
-    std::cout << "Add processos\n";
     fifo.add_processo(p1);
-    // fifo.add_processo(p2);
-    std::cout << "FIFO:\n";
+    fifo.add_processo(p2);
+
     std::thread escalonador_fifo(&FIFO::run, &fifo);
+    escalonador_fifo.join();
     return 0;
 }
 
