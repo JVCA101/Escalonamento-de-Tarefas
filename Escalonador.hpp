@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <queue>
-#include <vector>
 #include "Processo.hpp"
 
 class Escalonador
