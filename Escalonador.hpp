@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <mutex>
 #include <queue>
 #include "Processo.hpp"
 
@@ -28,5 +29,5 @@ public:
         processos.push(novo_processo);
     }
 
-    // virtual void run() = 0;
+    virtual void run(std::mutex* mutex_running) = 0;
 };
