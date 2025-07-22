@@ -1,5 +1,6 @@
 #pragma once
 
+#include <condition_variable>
 #include <iostream>
 #include <mutex>
 #include <thread>
@@ -22,14 +23,19 @@ public:
         this->running = false;
     }
 
-	void run(std::mutex* mutex_running, std::mutex* mutex_novo_processo) override
+	void run(std::mutex* mutex_running, std::condition_variable* cv_novo_processo, std::mutex* mutex_novo_processo) override
 	{
-        mutex_running->try_lock();
+        std::unique_lock<std::mutex> lock(*mutex_novo_processo);
+
+        mutex_running->lock();
         running = true;
         mutex_running->unlock();
+
         while(true)
         {
-
+            auto n{this->numero_processos_lista};
+            cv_novo_processo->wait(lock, [n] { return n > 0;});
+            std::cout << "condition_variable\n";
             while(this->numero_processos_lista > 0)
             {
                 this->numero_processos_lista--;
@@ -45,11 +51,6 @@ public:
             mutex_running->unlock();
             if(not_running)
                 break;
-            
-            mutex_novo_processo->lock();
-            // std::cout << "Lock Novo Processo:fifo\n";
-            mutex_novo_processo->unlock();
-            // std::cout << "Unlock Novo Processo:fifo\n";
         }
         std::cout << "TERMINOU :D\n";
 	}

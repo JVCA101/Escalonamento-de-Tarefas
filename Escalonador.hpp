@@ -1,5 +1,6 @@
 #pragma once
 
+#include <condition_variable>
 #include <iostream>
 #include <mutex>
 #include <queue>
@@ -31,7 +32,7 @@ public:
         processos.push(novo_processo);
     }
 
-    virtual void run(std::mutex* mutex_running, std::mutex* mutex_novo_processo) = 0;
+    virtual void run(std::mutex* mutex_running, std::condition_variable* cv_novo_processo, std::mutex* mutex_novo_processo) = 0;
 
     friend class FIFO;
 };

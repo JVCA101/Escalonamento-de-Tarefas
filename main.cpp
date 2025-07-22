@@ -1,12 +1,15 @@
 #include <iostream>
+#include <mutex>
 #include <thread>
+#include <condition_variable>
+#include <utility>
 #include "Processo.hpp"
 #include "FIFO.hpp"
 
 int main()
 {
-    Processo p1(1, 10);
-    Processo p2(2, 5);
+    Processo p1(1, 3);
+    Processo p2(2, 2);
 
     p1.exibir();
     p2.exibir();
@@ -15,8 +18,8 @@ int main()
     fifo.add_processo(p1);
     fifo.add_processo(p2);
     std::mutex mutex_running, mutex_novo_processo;
-
-    std::thread escalonador_fifo(&FIFO::run, &fifo, &mutex_running, &mutex_novo_processo);
+    std::condition_variable cv_novo_processo;
+    std::thread escalonador_fifo(&FIFO::run, &fifo, &mutex_running, &cv_novo_processo, &mutex_novo_processo);
 
     // Adicionar novos processos durante a execução
     long time;
@@ -31,10 +34,11 @@ int main()
     {
         time = -1;
         std::cout << "Para adicionar novo processo dê o tempo dele em segundos inteiros(para parar dê -1):\n";
-        mutex_novo_processo.lock();
         // std::cout << "Lock Novo Processo:main\n";
-        std::cin >> time;
         
+        std::cin >> time;
+        cv_novo_processo.notify_one();
+
         if(time > 0)
         {
             fifo.add_processo(Processo(new_ids, time));
@@ -43,7 +47,7 @@ int main()
         else
             fifo.stop_running(&mutex_running);
         
-        mutex_novo_processo.unlock();
+        
         // std::cout << "Unlock Novo Processo:main\n";
         
         // std::cout << "Lock Running:main\n";
