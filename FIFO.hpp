@@ -33,23 +33,22 @@ public:
 
         while(true)
         {
-            auto n{this->numero_processos_lista};
-            cv_novo_processo->wait(lock, [n] { return n > 0;});
+            cv_novo_processo->wait(lock, [this] { return this->numero_processos_lista > 0;});
             std::cout << "condition_variable\n";
-            while(this->numero_processos_lista > 0)
-            {
-                this->numero_processos_lista--;
-                std::thread thread_processo(&Processo::executar, &processos.front());
-                thread_processo.join();
-                processos.pop();
-            }
+            // while(this->numero_processos_lista > 0)
+            // {
+            this->numero_processos_lista--;
+            std::thread thread_processo(&Processo::executar, &processos.front());
+            thread_processo.join();
+            processos.pop();
+            // }
             
             mutex_running->lock();
             // std::cout << "Lock Running:fifo\n";
             bool not_running = !this->running;
             // std::cout << "Unlock Running:fifo\n";
             mutex_running->unlock();
-            if(not_running)
+            if(not_running && this->numero_processos_lista <= 0)
                 break;
         }
         std::cout << "TERMINOU :D\n";
