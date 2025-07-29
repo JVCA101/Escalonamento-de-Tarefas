@@ -44,8 +44,10 @@ int main()
             new_ids++;
         }
         else
+        {
+            cv_novo_processo.notify_one();
+        }
             fifo.stop_running(&mutex_running);
-        
         
         // std::cout << "Unlock Novo Processo:main\n";
         
