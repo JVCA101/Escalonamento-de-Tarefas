@@ -2,8 +2,8 @@
 #include <mutex>
 #include <thread>
 #include <condition_variable>
-#include "Processo.hpp"
-#include "FIFO.hpp"
+#include "../include/Processo.hpp"
+#include "../include/FIFO.hpp"
 
 int main()
 {
