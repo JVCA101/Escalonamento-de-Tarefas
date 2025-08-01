@@ -41,7 +41,6 @@ void execute_in_fifo(const Processo *processos)
 
     std::thread fifo_thread(&FIFO::run, &fifo);
 
-    /*
 
     // 5 segundos
     std::this_thread::sleep_for(std::chrono::seconds(5));
@@ -55,7 +54,6 @@ void execute_in_fifo(const Processo *processos)
     std::this_thread::sleep_for(std::chrono::seconds(3));
     fifo.add_processo(processos[5]);
 
-    */
 
     fifo_thread.join();
 }
@@ -66,10 +64,30 @@ void execute_in_round_robin(const Processo *processos)
               << "-------RODANDO COM ROUND ROBIN-------" << std::endl
               << std::endl;
     RoundRobin rr{10};
+
+    // 0 segundos
     rr.add_processo(processos[0]);
     rr.add_processo(processos[1]);
     rr.add_processo(processos[2]);
-    std::thread fifo_thread(&RoundRobin::run, &rr);
 
-    fifo_thread.join();
+    std::cout << std::endl
+              << std::endl;
+
+    std::thread rr_thread(&RoundRobin::run, &rr);
+    
+    
+    // 5 segundos
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    rr.add_processo(processos[3]);
+
+    // 7 segundos
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    rr.add_processo(processos[4]);
+
+    // 10 segundos
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    rr.add_processo(processos[5]);
+
+
+    rr_thread.join();
 }

@@ -1,8 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <thread>
-#include <chrono>
 #include "Escalonador.hpp"
 
 class RoundRobin : public Escalonador
@@ -23,8 +21,9 @@ public:
             }
             else
             {
-                std::thread thread_processo(&Processo::executar_quantum, &processos.front(), quantum);
-                thread_processo.join();
+                // std::thread thread_processo(&Processo::executar_quantum, &processos.front(), quantum);
+                // thread_processo.join();
+                processos.front().executar_quantum(quantum);
 
                 processos.push(processos.front());
                 processos.pop();
