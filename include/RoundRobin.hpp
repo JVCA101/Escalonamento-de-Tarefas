@@ -21,9 +21,8 @@ public:
             }
             else
             {
-                // std::thread thread_processo(&Processo::executar_quantum, &processos.front(), quantum);
-                // thread_processo.join();
-                processos.front().executar_quantum(quantum);
+                std::thread thread_processo(&Processo::executar_quantum, &processos.front(), quantum);
+                thread_processo.join();
 
                 processos.push(processos.front());
                 processos.pop();
