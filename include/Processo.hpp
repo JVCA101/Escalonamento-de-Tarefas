@@ -10,13 +10,14 @@ private:
     int id;
     unsigned long tempoDeExecucao; // em segundos
     unsigned long tempoRestante;
+    unsigned long tempoTotal;
 
 public:
-
     Processo(const int id, const unsigned long tempo)
     {
         this->id = id;
         this->tempoRestante = this->tempoDeExecucao = tempo;
+        tempoTotal = 0;
     }
 
     int getId() const noexcept
@@ -29,9 +30,24 @@ public:
         return this->tempoDeExecucao;
     }
 
+    unsigned long getTempoRestante() const noexcept
+    {
+        return this->tempoRestante;
+    }
+
     void setId(const int novoId)
     {
         this->id = novoId;
+    }
+
+    int getTempoTotal() const noexcept
+    {
+        return this->tempoTotal;
+    }
+
+    void setTempoTotal(const int novoTempoTotal)
+    {
+        this->tempoTotal = novoTempoTotal;
     }
 
     // void setTempoDeExecucao(int novoTempo)
@@ -53,18 +69,16 @@ public:
         std::this_thread::sleep_for(std::chrono::seconds(this->tempoDeExecucao));
         const auto end = std::chrono::high_resolution_clock::now();
 
-        std::cout << "Processo " << this->id 
-                  << " terminou de executar em " << std::chrono::duration_cast<std::chrono::seconds>(end-start).count()
-                  << " segundos\n";
-        
+        std::cout << "Processo " << this->id << " terminou de executar (tempo total: " << tempoTotal + this->getTempoDeExecucao() << ")" << std::endl;
     }
 
-    bool executar_quantum(const unsigned long quantum)
+    void executar_quantum(const unsigned long quantum)
     {
         unsigned long time_to_run;
-        if(quantum < tempoRestante)
+        if (tempoRestante < quantum)
         {
             time_to_run = tempoRestante;
+            tempoTotal += tempoRestante;
             tempoRestante = 0;
         }
         else
@@ -74,19 +88,18 @@ public:
         }
 
         std::this_thread::sleep_for(std::chrono::seconds(time_to_run));
-        
+
         bool still_running = true;
-        if(tempoRestante == 0)
+        if (tempoRestante == 0)
         {
-            std::cout << "Processo " << this->id << "terminou de executar";
-            return !still_running;
+            std::cout << "Processo " << this->id << " terminou de executar (tempo total: " << tempoTotal << ")" << std::endl;
+            return;
         }
         else
         {
-            std::cout << "Executando processo " << this->id 
-                      << "\nTempo restante: " << tempoRestante;
-            return still_running;
+            std::cout << "Executando quantum de " << quantum << "seg (processo " << this->id << ")"
+                      << "\nTempo restante: " << tempoRestante << "/" << tempoDeExecucao << std::endl;
+            return;
         }
-        
     }
 };
