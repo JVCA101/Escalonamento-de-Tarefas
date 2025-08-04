@@ -2,16 +2,15 @@
 
 #include <iostream>
 #include <queue>
-#include <thread>
-#include <chrono>
 #include "Processo.hpp"
 
 class Escalonador
 {
+private:
+    std::queue<Processo> processos;
 public:
     unsigned int numero_processos_maximo;
     unsigned int numero_processos_lista{};
-    std::queue<Processo> processos;
 
     Escalonador(const unsigned int n_processos_max)
     {
@@ -34,4 +33,5 @@ public:
     virtual void run() = 0;
 
     friend class FIFO;
+    friend class RoundRobin;
 };

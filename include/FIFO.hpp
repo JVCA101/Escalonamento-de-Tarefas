@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <thread>
-#include <chrono>
 #include "Escalonador.hpp"
 
 class FIFO : public Escalonador
