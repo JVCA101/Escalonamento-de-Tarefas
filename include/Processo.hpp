@@ -50,11 +50,6 @@ public:
         this->tempoTotal = novoTempoTotal;
     }
 
-    // void setTempoDeExecucao(int novoTempo)
-    // {
-    //     tempoDeExecucao = novoTempo;
-    // }
-
     void exibir() const
     {
         std::cout << "Processo ID: " << this->id
