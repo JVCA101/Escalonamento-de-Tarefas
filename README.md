@@ -23,8 +23,8 @@ Para rodar o programa, basta:
 ./escalonador
 ```
 ## Autores
-Gabriel Oliveira Quaresma\
-João Victor Corrêa de Almeida\
-Gabriela Singulani Marques\
-Livia Ribeiro Pessamilio\
-Felipe Souza Magalhães Sant'Anna
+* Gabriel Oliveira Quaresma
+* João Victor Corrêa de Almeida
+* Gabriela Singulani Marques
+* Livia Ribeiro Pessamilio
+* Felipe Souza Magalhães Sant'Anna
